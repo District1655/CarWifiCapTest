@@ -100,6 +100,26 @@ git tag v1.0.1; git push origin v1.0.1
 gh release create v1.0.1 "out\CarWifiCapTest_v1.0.1.apk" --title "v1.0.1" --notes "更新说明"
 ```
 
+## 签名固定（重要）
+
+Android 覆盖安装只认签名证书，密钥一换，已装版本就只能卸载重装。所以这里把签名钉死了：
+
+| 项目 | 值 |
+| --- | --- |
+| 证书 SHA-256 | `47:0D:58:FF:60:B2:50:67:76:7D:8A:A9:54:43:D7:D2:76:2B:4B:57:B3:21:A5:7C:2C:6B:4A:1C:DD:79:98:DD` |
+| 摘要（无冒号） | `470d58ff60b25067767d8aa95443d7d2762b4b57b321a57c2c6b4a1cdd7998dd` |
+| 别名 / 口令 | `carwificap` / `android` / `android` |
+| 密钥位置 | `keystore\release.jks`（首选）或 `D:\tool\签名\CarWifiCapTest\release.jks`（备份） |
+
+`build.ps1` 每次构建都会做两道校验：
+
+1. 读 keystore 的证书指纹，和上面固定值比对，不一致直接中止；
+2. 签完再读产物 APK 里真实写入的证书摘要，二次比对，防止"签是签了但签错"。
+
+密钥本身**不入库**（`.gitignore` 已排除 `keystore/`），换台机器构建时把 `release.jks` 放回上述任一位置即可；找不到密钥脚本会中止并提示，不会自动生成新密钥。
+
+> 密钥双份存放：项目内一份、`D:\tool\签名\CarWifiCapTest\` 一份，删工程目录也不会丢。真丢了就只能换新密钥，代价是所有已装设备卸载重装。
+
 ## 判定标准（Wi-Fi 5、2 天线）
 
 | 频宽 | 协商速率 |
