@@ -1,0 +1,17 @@
+# 构建产物与中间文件
+build/
+out/
+
+# 签名密钥不入库
+keystore/
+*.jks
+*.keystore
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# 系统垃圾
+Thumbs.db
+.DS_Store
