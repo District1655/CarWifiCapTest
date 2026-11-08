@@ -5,6 +5,7 @@
 - 包名：`com.fyt.wificap`
 - 版本：1.0.0（versionCode 10000）
 - 最低支持：Android 7.0（API 24）｜目标：API 29
+- 项目位置：`D:\CarWifiCapTest`
 - 仓库：https://github.com/District1655/CarWifiCapTest
 - 产物：`out\CarWifiCapTest_v1.0.0.apk`（约 48 KB，已签名）
 
@@ -31,15 +32,15 @@ CarWifiCapTest\
 │        ├─ UpdaterConfig.java
 │        └─ UpdateCallback.java
 ├─ build.ps1                      一键构建（离线：aapt2→javac→d8→zipalign→apksigner）
-├─ keystore\debug.jks             自签名密钥（口令 android，不入库）
-├─ build\                         中间产物（不入库）
+├─ keystore\release.jks           签名密钥（固定，口令 android，不入库）
+├─ build\                         中间产物（不入库，可随时删，构建自动重建）
 └─ out\                           最终 APK（不入库，走 Release 分发）
 ```
 
 ## 重新构建
 
 ```powershell
-cd CarWifiCapTest
+cd D:\CarWifiCapTest
 pwsh -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
